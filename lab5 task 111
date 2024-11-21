@@ -1,0 +1,36 @@
+import java.util.Random;
+public class AlphabetThread extends Thread {
+    private boolean isRunning = true;
+    @Override
+    public void run() {
+        Random random = new Random();
+        int count = 0;
+
+        while (isRunning && count < 26) {
+            char randomChar = (char) (random.nextInt(26) + 65);
+            System.out.print(randomChar + " ");
+            count++;
+            try {
+                Thread.sleep(200 + random.nextInt(600));
+            } catch (InterruptedException e) {
+                System.out.println("Thread interrupted!");
+            }
+        }
+    }
+    public void stopThread() {
+        isRunning = false;
+    }
+    public static void main(String[] args) {
+        AlphabetThread thread = new AlphabetThread();
+
+        System.out.println("Starting the thread...");
+        thread.start();
+        try {
+            Thread.sleep(8000);
+        } catch (InterruptedException e) {
+            System.out.println("Main thread interrupted!");
+        }
+        System.out.println("\nStopping the thread...");
+        thread.stopThread();
+    }
+}
